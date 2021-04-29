@@ -1301,12 +1301,12 @@ func (b *Bot) CreateInviteLink(chat *Chat) (string, error) {
 	}
 
 	var resp struct {
-		Result string
+		Result *ChatInviteLink
 	}
 	if err := json.Unmarshal(data, &resp); err != nil {
 		return "", wrapError(err)
 	}
-	return resp.Result, nil
+	return resp.Result.InviteLink, nil
 }
 // SetGroupTitle should be used to update group title.
 func (b *Bot) SetGroupTitle(chat *Chat, title string) error {
