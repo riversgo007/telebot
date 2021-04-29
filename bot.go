@@ -1289,6 +1289,25 @@ func (b *Bot) GetInviteLink(chat *Chat) (string, error) {
 	return resp.Result, nil
 }
 
+// GetInviteLink should be used to export chat's invite link.
+func (b *Bot) CreateInviteLink(chat *Chat) (string, error) {
+	params := map[string]string{
+		"chat_id": chat.Recipient(),
+	}
+
+	data, err := b.Raw("createChatInviteLink", params)
+	if err != nil {
+		return "", err
+	}
+
+	var resp struct {
+		Result string
+	}
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return "", wrapError(err)
+	}
+	return resp.Result, nil
+}
 // SetGroupTitle should be used to update group title.
 func (b *Bot) SetGroupTitle(chat *Chat, title string) error {
 	params := map[string]string{
